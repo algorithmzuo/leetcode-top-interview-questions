@@ -2,15 +2,6 @@ package topinterviewquestions;
 
 public class Problem_0010_RegularExpressionMatching {
 
-	public static boolean isMatch1(String s, String p) {
-		if (s == null || p == null) {
-			return false;
-		}
-		char[] str = s.toCharArray();
-		char[] pattern = p.toCharArray();
-		return isValid(str, pattern) && process(str, pattern, 0, 0);
-	}
-
 	public static boolean isValid(char[] str, char[] pattern) {
 		for (char cha : str) {
 			if (cha == '.' || cha == '*') {
@@ -25,15 +16,26 @@ public class Problem_0010_RegularExpressionMatching {
 		return true;
 	}
 
+	// 课堂现场写
+	public static boolean isMatch1(String s, String p) {
+		if (s == null || p == null) {
+			return false;
+		}
+		char[] str = s.toCharArray();
+		char[] pattern = p.toCharArray();
+		return isValid(str, pattern) && process1(str, pattern, 0, 0);
+	}
+
+	// 课堂现场写
 	// str[si.....] 能否被 pattern[pi...] 变出来
 	// 潜台词：pi位置，pattern[pi] != '*'
-	public static boolean process(char[] str, char[] pattern, int si, int pi) {
+	public static boolean process1(char[] str, char[] pattern, int si, int pi) {
 		if (si == str.length) { // si越界了
 			if (pi == pattern.length) {
 				return true;
 			}
 			if (pi + 1 < pattern.length && pattern[pi + 1] == '*') {
-				return process(str, pattern, si, pi + 2);
+				return process1(str, pattern, si, pi + 2);
 			}
 			return false;
 		}
@@ -43,18 +45,18 @@ public class Problem_0010_RegularExpressionMatching {
 		}
 		// si 没越界 pi 没越界
 		if (pi + 1 >= pattern.length || pattern[pi + 1] != '*') {
-			return ((str[si] == pattern[pi]) || (pattern[pi] == '.')) && process(str, pattern, si + 1, pi + 1);
+			return ((str[si] == pattern[pi]) || (pattern[pi] == '.')) && process1(str, pattern, si + 1, pi + 1);
 		}
 		// si 没越界 pi 没越界 pi+1 *
 		if (pattern[pi] != '.' && str[si] != pattern[pi]) {
-			return process(str, pattern, si, pi + 2);
+			return process1(str, pattern, si, pi + 2);
 		}
 		// si 没越界 pi 没越界 pi+1 * [pi]可配[si]
-		if (process(str, pattern, si, pi + 2)) {
+		if (process1(str, pattern, si, pi + 2)) {
 			return true;
 		}
 		while (si < str.length && (str[si] == pattern[pi] || pattern[pi] == '.')) {
-			if (process(str, pattern, si + 1, pi + 2)) {
+			if (process1(str, pattern, si + 1, pi + 2)) {
 				return true;
 			}
 			si++;
@@ -62,6 +64,7 @@ public class Problem_0010_RegularExpressionMatching {
 		return false;
 	}
 
+	// 课堂现场写
 	public static boolean isMatch2(String s, String p) {
 		if (s == null || p == null) {
 			return false;
@@ -80,6 +83,7 @@ public class Problem_0010_RegularExpressionMatching {
 		return isValid(str, pattern) && process2(str, pattern, 0, 0, dp);
 	}
 
+	// 课堂现场写
 	// str[si.....] 能否被 pattern[pi...] 变出来
 	// 潜台词：pi位置，pattern[pi] != '*'
 	public static boolean process2(char[] str, char[] pattern, int si, int pi, int[][] dp) {
@@ -136,56 +140,102 @@ public class Problem_0010_RegularExpressionMatching {
 		return false;
 	}
 
-	public static boolean isMatch3(String str, String exp) {
-		if (str == null || exp == null) {
+	// 以下的代码是课后的优化
+	// 有代码逻辑精简的优化，还包含一个重要的斜率优化，请先理解课上的内容
+	public static boolean isMatch3(String s, String p) {
+		if (s == null || p == null) {
+			return false;
+		}
+		char[] str = s.toCharArray();
+		char[] pattern = p.toCharArray();
+		return isValid(str, pattern) && process3(str, pattern, 0, 0);
+	}
+
+	// 举例说明斜率优化:
+	// 求状态(si = 3, pi = 7)时，假设状况如下
+	//  str :     a  a  a  b ...
+	//   si :     3  4  5  6 ...
+	//  pat :     a  *  ? ...
+	//   pi :     7  8  9 ...
+	//  状态(si = 3, pi = 7)的底层会依赖：
+	//            状态(si = 3, pi = 9)
+	//            状态(si = 4, pi = 9)
+    //            状态(si = 5, pi = 9)
+    //            状态(si = 6, pi = 9)
+	//
+	// 求状态(si = 2, pi = 7)时，假设状况如下
+	//  str :     a  a  a  a  b ...
+	//   si :     2  3  4  5  6 ...
+	//  pat :     a  *  ? ...
+	//   pi :     7  8  9 ...
+	//  状态(si = 2, pi = 7)的底层会依赖：
+	//            状态(si = 2, pi = 9)
+	//            状态(si = 3, pi = 9)
+	//            状态(si = 4, pi = 9)
+    //            状态(si = 5, pi = 9)
+    //            状态(si = 6, pi = 9)
+	// 
+	// 注意看状态(si = 2, pi = 7)底层依赖的后4个，其实就是状态(si = 3, pi = 7)
+	// 所以，状态(si = 2, pi = 7)的底层依赖可以化简为：
+	// 状态(si = 2, pi = 9)、状态(si = 3, pi = 7)
+	// 这样枚举行为就被化简成了有限两个状态，详细情况看代码
+	public static boolean process3(char[] str, char[] pattern, int si, int pi) {
+		if (si == str.length && pi == pattern.length) {
+			return true;
+		}
+		if (si == str.length) {
+			return (pi + 1 < pattern.length && pattern[pi + 1] == '*') && process3(str, pattern, si, pi + 2);
+		}
+		if (pi == pattern.length) {
+			return false;
+		}
+		if (pi + 1 >= pattern.length || pattern[pi + 1] != '*') {
+			return ((str[si] == pattern[pi]) || (pattern[pi] == '.')) && process3(str, pattern, si + 1, pi + 1);
+		}
+		// 此处为斜率优化，含义看函数注释
+		if ((str[si] == pattern[pi] || pattern[pi] == '.') && process3(str, pattern, si + 1, pi)) {
+			return true;
+		}
+		return process3(str, pattern, si, pi + 2);
+	}
+
+	// 以下的代码是斜率优化后的尝试函数，改成动态规划的解
+	// 请先理解基础班中"暴力递归改动态规划"的内容
+	// 如果str长度为N，pattern长度为M，最终时间复杂度为O(N*M)
+	public static boolean isMatch4(String str, String pattern) {
+		if (str == null || pattern == null) {
 			return false;
 		}
 		char[] s = str.toCharArray();
-		char[] e = exp.toCharArray();
-		if (!isValid(s, e)) {
+		char[] p = pattern.toCharArray();
+		if (!isValid(s, p)) {
 			return false;
 		}
-		boolean[][] dp = initDPMap(s, e);
-		for (int i = s.length - 1; i > -1; i--) {
-			for (int j = e.length - 2; j > -1; j--) {
-				if (e[j + 1] != '*') {
-					dp[i][j] = (s[i] == e[j] || e[j] == '.') && dp[i + 1][j + 1];
+		int N = s.length;
+		int M = p.length;
+		boolean[][] dp = new boolean[N + 1][M + 1];
+		dp[N][M] = true;
+		for (int j = M - 1; j >= 0; j--) {
+			dp[N][j] = (j + 1 < M && p[j + 1] == '*') && dp[N][j + 2];
+		}
+		// dp[0..N-2][M-1]都等于false，只有dp[N-1][M-1]需要讨论
+		if (N > 0 && M > 0) {
+			dp[N - 1][M - 1] = (s[N - 1] == p[M - 1] || p[M - 1] == '.');
+		}
+		for (int i = N - 1; i >= 0; i--) {
+			for (int j = M - 2; j >= 0; j--) {
+				if (p[j + 1] != '*') {
+					dp[i][j] = ((s[i] == p[j]) || (p[j] == '.')) && dp[i + 1][j + 1];
 				} else {
-					int si = i;
-					while (si != s.length && (s[si] == e[j] || e[j] == '.')) {
-						if (dp[si][j + 2]) {
-							dp[i][j] = true;
-							break;
-						}
-						si++;
-					}
-					if (dp[i][j] != true) {
-						dp[i][j] = dp[si][j + 2];
+					if ((s[i] == p[j] || p[j] == '.') && dp[i + 1][j]) {
+						dp[i][j] = true;
+					} else {
+						dp[i][j] = dp[i][j + 2];
 					}
 				}
 			}
 		}
 		return dp[0][0];
-	}
-
-	public static boolean[][] initDPMap(char[] s, char[] e) {
-		int slen = s.length;
-		int elen = e.length;
-		boolean[][] dp = new boolean[slen + 1][elen + 1];
-		dp[slen][elen] = true;
-		for (int j = elen - 2; j > -1; j = j - 2) {
-			if (e[j] != '*' && e[j + 1] == '*') {
-				dp[slen][j] = true;
-			} else {
-				break;
-			}
-		}
-		if (slen > 0 && elen > 0) {
-			if ((e[elen - 1] == '.' || s[slen - 1] == e[elen - 1])) {
-				dp[slen - 1][elen - 1] = true;
-			}
-		}
-		return dp;
 	}
 
 }
