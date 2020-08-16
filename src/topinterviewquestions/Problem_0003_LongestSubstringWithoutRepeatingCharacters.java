@@ -1,7 +1,5 @@
 package topinterviewquestions;
 
-import java.util.HashMap;
-
 public class Problem_0003_LongestSubstringWithoutRepeatingCharacters {
 
 	public static int lengthOfLongestSubstring(String s) {
