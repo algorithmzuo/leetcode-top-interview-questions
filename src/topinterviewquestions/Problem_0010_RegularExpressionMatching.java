@@ -49,6 +49,7 @@ public class Problem_0010_RegularExpressionMatching {
 		if (pattern[pi] != '.' && str[si] != pattern[pi]) {
 			return process(str, pattern, si, pi + 2);
 		}
+		// si 没越界 pi 没越界 pi+1 * [pi]可配[si]
 		if (process(str, pattern, si, pi + 2)) {
 			return true;
 		}
