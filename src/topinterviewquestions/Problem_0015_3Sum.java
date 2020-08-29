@@ -9,6 +9,7 @@ public class Problem_0015_3Sum {
 	public static List<List<Integer>> threeSum1(int[] nums) {
 		Arrays.sort(nums);
 		List<List<Integer>> ans = new ArrayList<>();
+		// 第一个数选了i位置的数
 		for (int i = 0; i < nums.length - 2; i++) {
 			if (i == 0 || nums[i - 1] != nums[i]) {
 				List<List<Integer>> nexts = twoSum1(nums, i + 1, -nums[i]);
@@ -21,6 +22,8 @@ public class Problem_0015_3Sum {
 		return ans;
 	}
 
+	// nums已经有序了
+	// nums[begin......]范围上，找到累加和为target的所有二元组
 	public static List<List<Integer>> twoSum1(int[] nums, int begin, int target) {
 		int L = begin;
 		int R = nums.length - 1;

@@ -18,6 +18,9 @@ public class Problem_0014_LongestCommonPrefix {
 				index++;
 			}
 			min = Math.min(index, min);
+			if (min == 0) {
+				return "";
+			}
 		}
 		return strs[0].substring(0, min);
 	}
