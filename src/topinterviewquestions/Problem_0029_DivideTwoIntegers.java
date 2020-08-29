@@ -53,6 +53,7 @@ public class Problem_0029_DivideTwoIntegers {
 		if (divisor == Integer.MIN_VALUE) {
 			return dividend == Integer.MIN_VALUE ? 1 : 0;
 		}
+		// 除数不是系统最小
 		if (dividend == Integer.MIN_VALUE) {
 			if (divisor == negNum(1)) {
 				return Integer.MAX_VALUE;
@@ -60,7 +61,23 @@ public class Problem_0029_DivideTwoIntegers {
 			int res = div(add(dividend, 1), divisor);
 			return add(res, div(minus(dividend, multi(res, divisor)), divisor));
 		}
+		// dividend不是系统最小，divisor也不是系统最小
 		return div(dividend, divisor);
+	}
+	// div(a,b) a和b都不能是系统最小
+
+	// 现场福利函数
+	public static String printNumBinary(int num) {
+		StringBuilder builder = new StringBuilder();
+		for (int i = 31; i >= 0; i--) {
+			builder.append(((num >> i) & 1) == 0 ? '0' : '1');
+		}
+		return builder.toString();
+	}
+
+	public static void main(String[] args) {
+		int num = -1;
+		System.out.println(printNumBinary(num));
 	}
 
 }
