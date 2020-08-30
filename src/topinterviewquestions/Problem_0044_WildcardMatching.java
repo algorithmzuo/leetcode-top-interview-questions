@@ -67,4 +67,27 @@ public class Problem_0044_WildcardMatching {
 		return dp[0][0];
 	}
 
+	// 最终做的化简
+	public static boolean isMatch3(String str, String pattern) {
+		char[] s = str.toCharArray();
+		char[] p = pattern.toCharArray();
+		int N = s.length;
+		int M = p.length;
+		boolean[][] dp = new boolean[N + 1][M + 1];
+		dp[N][M] = true;
+		for (int pi = M - 1; pi >= 0; pi--) {
+			dp[N][pi] = p[pi] == '*' && dp[N][pi + 1];
+		}
+		for (int si = N - 1; si >= 0; si--) {
+			for (int pi = M - 1; pi >= 0; pi--) {
+				if (p[pi] != '*') {
+					dp[si][pi] = (p[pi] == '?' || s[si] == p[pi]) && dp[si + 1][pi + 1];
+				} else {
+					dp[si][pi] = dp[si][pi + 1] || dp[si + 1][pi];
+				}
+			}
+		}
+		return dp[0][0];
+	}
+
 }
