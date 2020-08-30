@@ -6,6 +6,80 @@ import java.util.Queue;
 
 public class Problem_0045_JumpGameIIFollowUpOnClass {
 
+	// start 和 end从1开始
+	public static int jump1(int N, int start, int end, int[] arr) {
+		boolean[] walk = new boolean[N];
+		return f(arr, N, end, start, walk);
+	}
+
+	// 从i位置到end，至少要几步
+	// walk[i-1] == false i之前没到过
+	// walk[i-1] == true i之前到过
+	public static int f(int[] arr, int N, int end, int i, boolean[] walk) {
+		if (i < 1) {
+			return -1;
+		}
+		if (i > N) {
+			return -1;
+		}
+		if (walk[i - 1]) {
+			return -1;
+		}
+		if (i == end) {
+			return 0;
+		}
+		walk[i - 1] = true;
+		int left = i - arr[i - 1];
+		int right = i + arr[i - 1];
+		int next = -1;
+		int ans1 = f(arr, N, end, left, walk);
+		int ans2 = f(arr, N, end, right, walk);
+		if (ans1 != -1 && ans2 != -1) {
+			next = Math.min(ans1, ans2);
+		} else if (ans1 != -1) {
+			next = ans1;
+		} else if (ans2 != -1) {
+			next = ans2;
+		}
+		walk[i - 1] = false;
+		if (next == -1) {
+			return -1;
+		}
+		return next + 1;
+	}
+
+	public static int jump2(int N, int start, int end, int[] arr) {
+		return g(arr, N, end, start, 0);
+	}
+
+	public static int g(int[] arr, int N, int end, int i, int k) {
+		if (i < 1) {
+			return -1;
+		}
+		if (i > N) {
+			return -1;
+		}
+		if (k > N - 1) {
+			return -1;
+		}
+		if (i == end) {
+			return k;
+		}
+		int left = i - arr[i - 1];
+		int right = i + arr[i - 1];
+		int ans = -1;
+		int ans1 = g(arr, N, end, left, k + 1);
+		int ans2 = g(arr, N, end, right, k + 1);
+		if (ans1 != -1 && ans2 != -1) {
+			ans = Math.min(ans1, ans2);
+		} else if (ans1 != -1) {
+			ans = ans1;
+		} else if (ans2 != -1) {
+			ans = ans2;
+		}
+		return ans;
+	}
+
 	public static int jumpMinTimes1(int N, int start, int end, int[] arr) {
 		boolean[] map = new boolean[N + 1];
 
@@ -174,15 +248,15 @@ public class Problem_0045_JumpGameIIFollowUpOnClass {
 	public static void main(String[] args) {
 		int maxN = 20;
 		int maxV = 10;
-		int testTimes = 200000;
+		int testTimes = 200;
 		System.out.println("test begin");
 		for (int i = 0; i < testTimes; i++) {
 			int[] arr = gerRandomArray(maxN, maxV);
 			int N = arr.length;
 			int start = (int) (Math.random() * N) + 1;
 			int end = (int) (Math.random() * N) + 1;
-			int ans1 = jumpMinTimes1(N, start, end, arr);
-			int ans2 = jumpMinTimes2(N, start, end, arr);
+			int ans1 = jump1(N, start, end, arr);
+			int ans2 = jump2(N, start, end, arr);
 			int ans3 = jumpMinTimes3(N, start, end, arr);
 			if (ans1 != ans2 || ans2 != ans3) {
 				printArray(arr);
