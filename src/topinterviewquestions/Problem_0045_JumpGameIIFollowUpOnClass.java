@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class Problem_0055_JumpMinTimesFollowUpOnClass {
+public class Problem_0045_JumpGameIIFollowUpOnClass {
 
 	public static int jumpMinTimes1(int N, int start, int end, int[] arr) {
 		boolean[] map = new boolean[N + 1];
