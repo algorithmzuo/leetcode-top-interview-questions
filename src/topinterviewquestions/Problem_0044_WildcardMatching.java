@@ -2,87 +2,66 @@ package topinterviewquestions;
 
 public class Problem_0044_WildcardMatching {
 
-	public static boolean isMatch1(String s, String p) {
-		return process(s.toCharArray(), p.toCharArray(), 0, 0);
+	public static boolean isMatch1(String str, String pattern) {
+		char[] s = str.toCharArray();
+		char[] p = pattern.toCharArray();
+		return process1(s, p, 0, 0);
 	}
 
-	public static boolean process(char[] str, char[] pattern, int si, int pi) {
-		if (si == str.length) {
-			if (pi == pattern.length) {
+	// s[si....] 能否被 p[pi....] 匹配出来
+	public static boolean process1(char[] s, char[] p, int si, int pi) {
+		if (si == s.length) { // s -> ""
+			if (pi == p.length) { // p -> ""
+				return true;
+			} else {
+				// p -> "..."
+				// p[pi] == '*' && p[pi+1...] -> "
+				return p[pi] == '*' && process1(s, p, si, pi + 1);
+			}
+		}
+		if (pi == p.length) { // p -> "" s
+			return si == s.length;
+		}
+		// s从si出发.... p从pi出发...
+		// s[si] -> 小写字母
+		// p[pi] -> 小写、?、*
+		if (p[pi] != '?' && p[pi] != '*') {
+			return s[si] == p[pi] && process1(s, p, si + 1, pi + 1);
+		}
+		// si.. pi.. pi ? *
+		if (p[pi] == '?') {
+			return process1(s, p, si + 1, pi + 1);
+		}
+		for (int len = 0; len <= s.length - si; len++) {
+			if (process1(s, p, si + len, pi + 1)) {
 				return true;
 			}
-			for (; pi < pattern.length; pi++) {
-				if (pattern[pi] != '*') {
-					return false;
-				}
-			}
-			return true;
 		}
-		if (pi == pattern.length) {
-			return si == str.length;
-		}
-		if (pattern[pi] != '*') {
-			return (str[si] == pattern[pi] || pattern[pi] == '?') && process(str, pattern, si + 1, pi + 1);
-		} else {
-			for (int i = si; i <= str.length; i++) {
-				if (process(str, pattern, i, pi + 1)) {
-					return true;
-				}
-			}
-			return false;
-		}
+		return false;
 	}
 
-	public static boolean isMatch2(String s, String p) {
-		char[] str = s.toCharArray();
-		char[] pattern = p.toCharArray();
-		int N = str.length;
-		int M = pattern.length;
+	public static boolean isMatch2(String str, String pattern) {
+		char[] s = str.toCharArray();
+		char[] p = pattern.toCharArray();
+		int N = s.length;
+		int M = p.length;
 		boolean[][] dp = new boolean[N + 1][M + 1];
 		dp[N][M] = true;
 		for (int pi = M - 1; pi >= 0; pi--) {
-			if (pattern[pi] != '*') {
-				break;
-			}
-			dp[N][pi] = true;
+			dp[N][pi] = p[pi] == '*' && dp[N][pi + 1];
 		}
-		for (int pi = M - 1; pi >= 0; pi--) {
-			for (int si = 0; si < N; si++) {
-				if (pattern[pi] != '*') {
-					dp[si][pi] = (str[si] == pattern[pi] || pattern[pi] == '?') && dp[si + 1][pi + 1];
-				} else {
-					for (int i = si; i <= str.length; i++) {
-						if (dp[i][pi + 1]) {
-							dp[si][pi] = true;
-							break;
-						}
-					}
+		for (int si = N - 1; si >= 0; si--) {
+			for (int pi = M - 1; pi >= 0; pi--) {
+				if (p[pi] != '?' && p[pi] != '*') {
+					dp[si][pi] = s[si] == p[pi] && dp[si + 1][pi + 1];
+					continue;
 				}
-			}
-		}
-		return dp[0][0];
-	}
-
-	public static boolean isMatch3(String s, String p) {
-		char[] str = s.toCharArray();
-		char[] pattern = p.toCharArray();
-		int N = str.length;
-		int M = pattern.length;
-		boolean[][] dp = new boolean[N + 1][M + 1];
-		dp[N][M] = true;
-		for (int pi = M - 1; pi >= 0; pi--) {
-			if (pattern[pi] != '*') {
-				break;
-			}
-			dp[N][pi] = true;
-		}
-		for (int pi = M - 1; pi >= 0; pi--) {
-			for (int si = N - 1; si >= 0; si--) {
-				if (pattern[pi] != '*') {
-					dp[si][pi] = (str[si] == pattern[pi] || pattern[pi] == '?') && dp[si + 1][pi + 1];
-				} else {
-					dp[si][pi] = dp[si][pi + 1] || dp[si + 1][pi];
+				if (p[pi] == '?') {
+					dp[si][pi] = dp[si + 1][pi + 1];
+					continue;
 				}
+				// p[pi] == '*'
+				dp[si][pi] = dp[si][pi + 1] || dp[si + 1][pi];
 			}
 		}
 		return dp[0][0];

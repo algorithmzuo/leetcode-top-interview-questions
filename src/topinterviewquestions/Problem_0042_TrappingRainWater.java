@@ -3,7 +3,7 @@ package topinterviewquestions;
 public class Problem_0042_TrappingRainWater {
 
 	public static int trap(int[] arr) {
-		if (arr == null || arr.length < 2) {
+		if (arr == null || arr.length < 3) {
 			return 0;
 		}
 		int N = arr.length;

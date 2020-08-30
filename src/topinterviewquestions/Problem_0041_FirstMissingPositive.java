@@ -8,7 +8,7 @@ public class Problem_0041_FirstMissingPositive {
 			if (arr[l] == l + 1) {
 				l++;
 			} else if (arr[l] <= l || arr[l] > r || arr[arr[l] - 1] == arr[l]) {
-				arr[l] = arr[--r];
+				swap(arr,l,--r);
 			} else {
 				swap(arr, l, arr[l] - 1);
 			}
