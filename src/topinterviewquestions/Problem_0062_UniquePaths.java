@@ -17,6 +17,7 @@ public class Problem_0062_UniquePaths {
 		return (int)o1;
 	}
 	
+	// 调用的时候，请保证初次调用时，m和n都不为0
 	public static long gcd(long m, long n) {
 		return n == 0 ? m : gcd(n, m % n);
 	}
