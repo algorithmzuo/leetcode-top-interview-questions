@@ -47,12 +47,16 @@ public class Problem_0050_PowXN {
 		int a = Integer.MIN_VALUE;
 		int b = -a;
 		System.out.println(b);
-		double test = 1.0000001D;
-		System.out.println(test == 1D);
-		System.out.println(Math.pow(test, (double) Integer.MIN_VALUE));
-		System.out.println(myPow1(test, Integer.MIN_VALUE));
-		System.out.println(myPow2(test, Integer.MIN_VALUE));
 
+		System.out.println("==============");
+
+		double test = 1.00000001D;
+		int N = Integer.MIN_VALUE;
+		System.out.println(test == 1D);
+		System.out.println(test + "的" + N + "次方，结果：");
+		System.out.println(Math.pow(test, (double) N));
+		System.out.println(myPow1(test, N));
+		System.out.println(myPow2(test, N));
 	}
 
 }
