@@ -25,16 +25,17 @@ public class Problem_0056_MergeIntervals {
 
 	}
 
+	// intervals  N * 2
 	public static int[][] merge(int[][] intervals) {
+		if (intervals.length == 0) {
+			return new int[0][0];
+		}
 		Range[] arr = new Range[intervals.length];
 		for (int i = 0; i < intervals.length; i++) {
 			arr[i] = new Range(intervals[i][0], intervals[i][1]);
 		}
 		Arrays.sort(arr, new RangeComparator());
 		ArrayList<Range> ans = new ArrayList<>();
-		if (arr.length == 0) {
-			return new int[0][0];
-		}
 		int s = arr[0].start;
 		int e = arr[0].end;
 		for (int i = 1; i < arr.length; i++) {

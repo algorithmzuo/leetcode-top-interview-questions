@@ -1,10 +1,10 @@
-package topinterviewquestions;
+package followup;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class Problem_0045_JumpGameIIFollowUpOnClass {
+public class JumpGameIIFollowUpOnClass {
 
 	// start 和 end从1开始
 	public static int jump1(int N, int start, int end, int[] arr) {
