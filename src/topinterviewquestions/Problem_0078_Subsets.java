@@ -13,6 +13,9 @@ public class Problem_0078_Subsets {
 		return ans;
 	}
 
+	// 当前来到index位置，做决定，1）不要当前位置的数   2）要当前位置的数
+	// 如果要当前位置的数，把该数字，放入到path中去
+	// 如果不要当前位置的数，不把该数字，放入到path中去
 	public static void process(int nums[], int index, LinkedList<Integer> path, List<List<Integer>> ans) {
 		if (index == nums.length) {
 			ans.add(copy(path));

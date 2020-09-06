@@ -14,10 +14,13 @@ public class Problem_0079_WordSearch {
 		return false;
 	}
 
+	// 目前到达了b[i][j]，word[k....]
+	// 从b[i][j]出发，能不能搞定word[k....]  true  false
 	public static boolean process(char[][] b, int i, int j, char[] w, int k) {
         if(k == w.length) {
 			return true;
 		}
+        // k 有字符
 		if (i < 0 || i == b.length || j < 0 || j == b[0].length) {
 			return false;
 		}

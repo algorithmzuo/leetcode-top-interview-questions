@@ -9,6 +9,7 @@ public class Problem_0084_LargestRectangleInHistogram {
 			return 0;
 		}
 		int maxArea = 0;
+		// 只放下标
 		Stack<Integer> stack = new Stack<Integer>();
 		for (int i = 0; i < height.length; i++) {
 			while (!stack.isEmpty() && height[i] <= height[stack.peek()]) {
