@@ -6,6 +6,7 @@ public class Problem_0121_BestTimeToBuyAndSellStock {
 		if (prices == null || prices.length == 0) {
 			return 0;
 		}
+		// 0...i 最小值
 		int min = prices[0];
 		int ans = 0;
 		for (int i = 0; i < prices.length; i++) {
