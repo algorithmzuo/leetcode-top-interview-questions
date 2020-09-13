@@ -3,7 +3,6 @@ package topinterviewquestions;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 public class Problem_0102_BinaryTreeLevelOrderTraversal {
 
@@ -18,28 +17,24 @@ public class Problem_0102_BinaryTreeLevelOrderTraversal {
 		if (root == null) {
 			return ans;
 		}
-		ans.add(new ArrayList<Integer>());
-		Queue<TreeNode> queue = new LinkedList<>();
-		queue.add(root);
-		TreeNode curEnd = root; // 当前层，最右节点是谁
-		TreeNode nextEnd = null; // 下一层，最右节点是谁
-		while (!queue.isEmpty()) {
-			TreeNode cur = queue.poll();
-			ans.get(ans.size() - 1).add(cur.val);
-			if (cur.left != null) {
-				queue.add(cur.left);
-				nextEnd = cur.left;
+		LinkedList<TreeNode> deque = new LinkedList<>();
+		deque.add(root);
+		int size = 0;
+		while(!deque.isEmpty()) {
+			size = deque.size();
+			List<Integer> curLevel = new ArrayList<>();
+			for(int i = 0 ; i< size;i++) {
+				TreeNode cur = deque.pollLast();
+				curLevel.add(cur.val);
+				if(cur.left != null) {
+					deque.addFirst(cur.left);
+				}
+				if(cur.right != null) {
+					deque.addFirst(cur.right);
+				}
 			}
-			if (cur.right != null) {
-				queue.add(cur.right);
-				nextEnd = cur.right;
-			}
-			if (cur == curEnd) {
-				curEnd = nextEnd;
-				ans.add(new ArrayList<Integer>());
-			}
+			ans.add(curLevel);
 		}
-		ans.remove(ans.size() - 1);
 		return ans;
 	}
 

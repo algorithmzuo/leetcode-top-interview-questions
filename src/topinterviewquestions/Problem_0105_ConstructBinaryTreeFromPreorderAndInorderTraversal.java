@@ -15,15 +15,14 @@ public class Problem_0105_ConstructBinaryTreeFromPreorderAndInorderTraversal {
 	}
 
 	public static TreeNode buildTree(int[] preorder, int[] inorder) {
-		HashMap<Integer, Integer> inMap = new HashMap<>();
+		HashMap<Integer, Integer> map = new HashMap<>();
 		for (int i = 0; i < inorder.length; i++) {
-			inMap.put(inorder[i], i);
+			map.put(inorder[i], i);
 		}
-		return process(preorder, 0, preorder.length - 1, inorder, 0, inorder.length - 1, inMap);
+		return f(preorder, 0, preorder.length - 1, inorder, 0, inorder.length - 1, map);
 	}
 
-	public static TreeNode process(int[] pre, int L1, int R1, int[] in, int L2, int R2,
-			HashMap<Integer, Integer> inMap) {
+	public static TreeNode f(int[] pre, int L1, int R1, int[] in, int L2, int R2, HashMap<Integer, Integer> map) {
 		if (L1 > R1) {
 			return null;
 		}
@@ -31,9 +30,9 @@ public class Problem_0105_ConstructBinaryTreeFromPreorderAndInorderTraversal {
 		if (L1 == R1) {
 			return head;
 		}
-		int find = inMap.get(pre[L1]);
-		head.left = process(pre, L1 + 1, L1 + find - L2, in, L2, find - 1, inMap);
-		head.right = process(pre, L1 + find - L2 + 1, R1, in, find + 1, R2, inMap);
+		int findIndex = map.get(pre[L1]);
+		head.left = f(pre, L1 + 1, L1 + findIndex - L2, in, L2, findIndex - 1, map);
+		head.right = f(pre, L1 + findIndex - L2 + 1, R1, in, findIndex + 1, R2, map);
 		return head;
 	}
 

@@ -12,17 +12,20 @@ public class Problem_0116_PopulatingNextRightPointersInEachNode {
 	public static class MyQueue {
 		public Node head;
 		public Node tail;
+		public int size;
 
 		public MyQueue() {
 			head = null;
 			tail = null;
+			size = 0;
 		}
 
 		public boolean isEmpty() {
-			return head == null;
+			return size == 0;
 		}
 
 		public void offer(Node cur) {
+			size++;
 			if (head == null) {
 				head = cur;
 				tail = cur;
@@ -33,6 +36,7 @@ public class Problem_0116_PopulatingNextRightPointersInEachNode {
 		}
 
 		public Node poll() {
+			size--;
 			Node ans = head;
 			head = head.next;
 			ans.next = null;
@@ -45,28 +49,24 @@ public class Problem_0116_PopulatingNextRightPointersInEachNode {
 		if (root == null) {
 			return root;
 		}
-		Node curLevelEnd = root;
-		Node nextLevelEnd = null;
-		Node pre = null;
 		MyQueue queue = new MyQueue();
 		queue.offer(root);
 		while (!queue.isEmpty()) {
-			Node cur = queue.poll();
-			if (pre != null) {
-				pre.next = cur;
-			}
-			pre = cur;
-			if (cur.left != null) {
-				queue.offer(cur.left);
-				nextLevelEnd = cur.left;
-			}
-			if (cur.right != null) {
-				queue.offer(cur.right);
-				nextLevelEnd = cur.right;
-			}
-			if (cur == curLevelEnd) {
-				curLevelEnd = nextLevelEnd;
-				pre = null;
+			// 第一个弹出的节点
+			Node pre = null;
+			int size = queue.size;
+			for (int i = 0; i < size; i++) {
+				Node cur = queue.poll();
+				if (cur.left != null) {
+					queue.offer(cur.left);
+				}
+				if (cur.right != null) {
+					queue.offer(cur.right);
+				}
+				if (pre != null) {
+					pre.next = cur;
+				}
+				pre = cur;
 			}
 		}
 		return root;
