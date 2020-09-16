@@ -2,7 +2,7 @@ package topinterviewquestions;
 
 public class Problem_0189_RotateArray {
 
-	public void rotate(int[] nums, int k) {
+	public void rotate1(int[] nums, int k) {
 		int N = nums.length;
 		k = k % N;
 		reverse(nums, 0, N - k - 1);
@@ -15,6 +15,45 @@ public class Problem_0189_RotateArray {
 			int tmp = nums[L];
 			nums[L++] = nums[R];
 			nums[R--] = tmp;
+		}
+	}
+
+	public static void rotate2(int[] nums, int k) {
+		int N = nums.length;
+		k = k % N;
+		if (k == 0) {
+			return;
+		}
+		int L = 0;
+		int R = N - 1;
+		int lpart = N - k;
+		int rpart = k;
+		int same = Math.min(lpart, rpart);
+		int diff = lpart - rpart;
+		exchange(nums, L, R, same);
+		while (diff != 0) {
+			if (diff > 0) {
+				L += same;
+				lpart = diff;
+			} else {
+				R -= same;
+				rpart = -diff;
+			}
+			same = Math.min(lpart, rpart);
+			diff = lpart - rpart;
+			exchange(nums, L, R, same);
+		}
+	}
+
+	public static void exchange(int[] nums, int start, int end, int size) {
+		int i = end - size + 1;
+		int tmp = 0;
+		while (size-- != 0) {
+			tmp = nums[start];
+			nums[start] = nums[i];
+			nums[i] = tmp;
+			start++;
+			i++;
 		}
 	}
 
