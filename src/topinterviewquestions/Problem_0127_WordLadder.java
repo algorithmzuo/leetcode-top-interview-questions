@@ -68,13 +68,14 @@ public class Problem_0127_WordLadder {
 
 	public static int ladderLength2(String beginWord, String endWord, List<String> wordList) {
 		HashSet<String> dict = new HashSet<>(wordList);
+		if (!dict.contains(endWord)) {
+			return 0;
+		}
 		HashSet<String> startSet = new HashSet<>();
 		HashSet<String> endSet = new HashSet<>();
 		HashSet<String> visit = new HashSet<>();
 		startSet.add(beginWord);
-		if (dict.contains(endWord)) {
-			endSet.add(endWord);
-		}
+		endSet.add(endWord);
 		for (int len = 2; !startSet.isEmpty(); len++) {
 			HashSet<String> nextSet = new HashSet<>();
 			for (String w : startSet) {
