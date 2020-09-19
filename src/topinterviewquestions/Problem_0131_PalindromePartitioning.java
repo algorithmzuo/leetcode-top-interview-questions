@@ -7,6 +7,7 @@ import java.util.List;
 public class Problem_0131_PalindromePartitioning {
 
 	public static List<List<String>> partition(String s) {
+		// dp[L][R] -> 是不是回文
 		boolean[][] dp = getdp(s.toCharArray());
 		LinkedList<String> path = new LinkedList<>();
 		List<List<String>> ans = new ArrayList<>();
@@ -34,11 +35,20 @@ public class Problem_0131_PalindromePartitioning {
 		return dp;
 	}
 
-	public static void process(String s, int index, LinkedList<String> path, boolean[][] dp, List<List<String>> ans) {
+	// s 字符串
+	// s[0...index-1] 已经做过的决定，放入了path中
+	// 在index开始做属于这个位置的决定，
+	// index == s.len  path之前做的决定（一种分割方法），放进总答案ans里
+	public static void process(String s, int index, LinkedList<String> path, 
+			boolean[][] dp, List<List<String>> ans) {
 		if (index == s.length()) {
 			ans.add(copy(path));
 		} else {
 			for (int end = index; end < s.length(); end++) {
+				// index..index   
+				// index..index+1
+				// index..index+2
+				// index..end
 				if (dp[index][end]) {
 					path.addLast(s.substring(index, end + 1));
 					process(s, end + 1, path, dp, ans);
