@@ -38,6 +38,7 @@ public class Problem_0190_ReverseBits {
 	
 	
 	public static int reverseBits(int n) {
+		// n
 		n = (n >>> 16) | (n << 16);
 		n = ((n & 0xff00ff00) >>> 8) | ((n & 0x00ff00ff) << 8);
 		n = ((n & 0xf0f0f0f0) >>> 4) | ((n & 0x0f0f0f0f) << 4);

@@ -12,6 +12,14 @@ public class Problem_0149_MaxPointsOnALine {
 		if (points.length <= 2) {
 			return points.length;
 		}
+		// Map<String, Integer>   "3_5"   6
+		// 3 / 5    4
+		// 3 / 7    10
+		// 3 / 17   11
+		// 5 / 7    9
+		// 5 / 9    3
+		// 3 :    (  5 , 4    7, 10,      17 ,  11      )
+		// 5 :    (  7 , 9    9, 3  )
 		Map<Integer, Map<Integer, Integer>> map = new HashMap<Integer, Map<Integer, Integer>>();
 		int result = 0;
 		for (int i = 0; i < points.length; i++) {
@@ -19,7 +27,7 @@ public class Problem_0149_MaxPointsOnALine {
 			int samePosition = 1;
 			int sameX = 0;
 			int sameY = 0;
-			int line = 0;
+			int line = 0; // 哪个斜率压中的点最多，把最多的点的数量，赋值给line
 			for (int j = i + 1; j < points.length; j++) {
 				int x = points[j][0] - points[i][0];
 				int y = points[j][1] - points[i][1];

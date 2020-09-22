@@ -60,34 +60,35 @@ public class Problem_0146_LRUCache {
 		}
 
 		public void moveNodeToTail(Node<K, V> node) {
-			if (this.tail == node) {
+			if (tail == node) {
 				return;
 			}
-			if (this.head == node) {
-				this.head = node.next;
-				this.head.last = null;
+			// node 不是尾巴
+			if (head == node) {
+				head = node.next;
+				head.last = null;
 			} else {
 				node.last.next = node.next;
 				node.next.last = node.last;
 			}
-			node.last = this.tail;
+			node.last = tail;
 			node.next = null;
-			this.tail.next = node;
-			this.tail = node;
+			tail.next = node;
+			tail = node;
 		}
 
 		public Node<K, V> removeHead() {
-			if (this.head == null) {
+			if (head == null) {
 				return null;
 			}
-			Node<K, V> res = this.head;
-			if (this.head == this.tail) { // 链表中只有一个节点的时候
-				this.head = null;
-				this.tail = null;
+			Node<K, V> res = head;
+			if (head == tail) { // 链表中只有一个节点的时候
+				head = null;
+				tail = null;
 			} else {
-				this.head = res.next;
+				head = res.next;
 				res.next = null;
-				this.head.last = null;
+				head.last = null;
 			}
 			return res;
 		}
@@ -123,12 +124,12 @@ public class Problem_0146_LRUCache {
 				node.value = value;
 				nodeList.moveNodeToTail(node);
 			} else {
+				if (keyNodeMap.size() == capacity) {
+					removeMostUnusedCache();
+				}
 				Node<K, V> newNode = new Node<K, V>(key, value);
 				keyNodeMap.put(key, newNode);
 				nodeList.addNode(newNode);
-				if (keyNodeMap.size() == capacity + 1) {
-					removeMostUnusedCache();
-				}
 			}
 		}
 

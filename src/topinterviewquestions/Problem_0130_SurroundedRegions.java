@@ -83,7 +83,6 @@ public class Problem_0130_SurroundedRegions {
 				if (board[i][j] == 'F') {
 					board[i][j] = 'O';
 				}
-
 			}
 		}
 	}
