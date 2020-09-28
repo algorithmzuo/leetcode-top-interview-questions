@@ -20,6 +20,7 @@ public class Problem_0200_NumberOfIslands {
 		return res;
 	}
 
+	// 目前来到m[i][j], 经历上下左右的感染过程
 	public static void infect(char[][] m, int i, int j, int N, int M) {
 		if (i < 0 || i >= N || j < 0 || j >= M || m[i][j] != '1') {
 			return;

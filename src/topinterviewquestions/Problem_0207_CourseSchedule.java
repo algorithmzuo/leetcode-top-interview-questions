@@ -7,6 +7,9 @@ import java.util.Queue;
 
 public class Problem_0207_CourseSchedule {
 
+	// 一个node，就是一个课程
+	// name是课程的编号
+	// in是课程的入度
 	public static class Node {
 		public int name;
 		public int in;
