@@ -13,12 +13,12 @@ public class Problem_0269_AlienDictionary {
 		}
 		int N = words.length;
 		HashMap<Character, Integer> indegree = new HashMap<>();
-		HashMap<Character, HashSet<Character>> graph = new HashMap<>();
 		for (int i = 0; i < N; i++) {
 			for (char c : words[i].toCharArray()) {
 				indegree.put(c, 0);
 			}
 		}
+		HashMap<Character, HashSet<Character>> graph = new HashMap<>();
 		for (int i = 0; i < N - 1; i++) {
 			char[] cur = words[i].toCharArray();
 			char[] nex = words[i + 1].toCharArray();

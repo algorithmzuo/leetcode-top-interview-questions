@@ -22,6 +22,7 @@ public class Problem_0308_RangeSumQuery2DMutable {
 		}
 	}
 
+	// 用户给我的row，col不能越界
 	private int sum(int row, int col) {
 		int sum = 0;
 		for (int i = row + 1; i > 0; i -= i & (-i)) {
@@ -32,6 +33,7 @@ public class Problem_0308_RangeSumQuery2DMutable {
 		return sum;
 	}
 
+	// 用户给我的row，col不能越界
 	public void update(int row, int col, int val) {
 		if (N == 0 || M == 0) {
 			return;

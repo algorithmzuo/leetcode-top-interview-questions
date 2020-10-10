@@ -63,9 +63,8 @@ public class Problem_0297_SerializeAndDeserializeBinaryTree {
 		if (root != null) {
 			queue.add(root);
 		}
-		TreeNode node = null;
 		while (!queue.isEmpty()) {
-			node = queue.poll();
+			TreeNode node = queue.poll();
 			node.left = generateNode(index == strs.length ? "null" : strs[index++]);
 			node.right = generateNode(index == strs.length ? "null" : strs[index++]);
 			if (node.left != null) {
@@ -82,7 +81,6 @@ public class Problem_0297_SerializeAndDeserializeBinaryTree {
 		if (val.equals("null")) {
 			return null;
 		}
-		System.out.println(val);
 		return new TreeNode(Integer.valueOf(val));
 	}
 
