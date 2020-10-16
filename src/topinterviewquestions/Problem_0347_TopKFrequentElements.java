@@ -7,11 +7,11 @@ import java.util.PriorityQueue;
 public class Problem_0347_TopKFrequentElements {
 
 	public static class Node {
-		public int key;
+		public int num;
 		public int count;
 
 		public Node(int k) {
-			key = k;
+			num = k;
 			count = 1;
 		}
 	}
@@ -46,7 +46,7 @@ public class Problem_0347_TopKFrequentElements {
 		int[] ans = new int[k];
 		int index = 0;
 		while (!heap.isEmpty()) {
-			ans[index++] = heap.poll().key;
+			ans[index++] = heap.poll().num;
 		}
 		return ans;
 	}

@@ -30,7 +30,6 @@ public class Problem_0315_CountOfSmallerNumbersAfterSelf {
 		for (int i = 0; i < arr.length; i++) {
 			arr[i] = new Node(nums[i], i);
 		}
-
 		process(arr, 0, arr.length - 1, ans);
 		return ans;
 	}

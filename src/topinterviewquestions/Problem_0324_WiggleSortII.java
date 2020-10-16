@@ -8,8 +8,7 @@ public class Problem_0324_WiggleSortII {
 			return;
 		}
 		int N = nums.length;
-		int median = findIndexNum(nums, 0, nums.length - 1, N / 2);
-		partition(nums, 0, nums.length - 1, median);
+		findIndexNum(nums, 0, nums.length - 1, N / 2);
 		if ((N & 1) == 0) {
 			shuffle(nums, 0, nums.length - 1);
 			reverse(nums, 0, nums.length - 1);

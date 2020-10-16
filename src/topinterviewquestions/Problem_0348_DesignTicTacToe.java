@@ -11,10 +11,10 @@ public class Problem_0348_DesignTicTacToe {
 		private int N;
 
 		public TicTacToe(int n) {
-			rows = new int[n][3];
+			rows = new int[n][3]; //0 1 2
 			cols = new int[n][3];
-			leftUp = new int[3];
-			rightUp = new int[3];
+			leftUp = new int[3]; //  1 2
+			rightUp = new int[3]; // 1 2
 			matrix = new boolean[n][n];
 			N = n;
 		}
