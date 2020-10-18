@@ -56,9 +56,9 @@ public class Code01_Cola {
 
 	// 正式的方法
 	public static int putTimes(int m, int a, int b, int c, int x) {
-		// 0 1 2
+		//              0   1   2
 		int[] qian = { 100, 50, 10 };
-		int[] zhang = { c, b, a };
+		int[] zhang = { c,  b,  a };
 		// 总共需要多少次投币
 		int puts = 0;
 		// 之前面值的钱还剩下多少总钱数
@@ -74,6 +74,10 @@ public class Code01_Cola {
 			// 那么当前面值参与搞定第一瓶可乐，需要掏出多少张呢？就是curQianFirstBuyZhang
 			int curQianFirstBuyZhang = (x - preQianRest + qian[i] - 1) / qian[i];
 			if (zhang[i] >= curQianFirstBuyZhang) { // 如果之前的钱和当前面值的钱，能凑出第一瓶可乐
+				// 买！
+				// preQianRest + qian[i] * curQianFirstBuyZhang  第一次买可乐的总钱数
+				// x
+				// preQianRest + qian[i] * curQianFirstBuyZhang  - x  1
 				// 凑出来了一瓶可乐也可能存在找钱的情况，
 				giveRest(qian, zhang, i + 1, (preQianRest + qian[i] * curQianFirstBuyZhang) - x, 1);
 				puts += curQianFirstBuyZhang + preQianZhang;
@@ -109,6 +113,9 @@ public class Code01_Cola {
 		return m == 0 ? puts : -1;
 	}
 
+	// 假设单次买可乐，每次零钱是oneTimeRest
+	// 一共买了times次可乐，谁买的？ i-1号面值买的
+	// i... 可能获得零钱，请把张数调整对
 	public static void giveRest(int[] qian, int[] zhang, int i, int oneTimeRest, int times) {
 		for (; i < 3; i++) {
 			zhang[i] += (oneTimeRest / qian[i]) * times;

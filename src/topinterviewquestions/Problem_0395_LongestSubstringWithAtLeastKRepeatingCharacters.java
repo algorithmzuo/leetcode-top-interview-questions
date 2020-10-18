@@ -31,11 +31,17 @@ public class Problem_0395_LongestSubstringWithAtLeastKRepeatingCharacters {
 		int N = str.length;
 		int max = 0;
 		for (int require = 1; require <= 26; require++) {
+			// a~z  a~z 出现次数
+			// count[0  1  2]  a b c 
 			int[] count = new int[26];
+			// 目前窗口内收集了几种字符了
 			int collect = 0;
+			// 目前窗口内出现次数>=k次的字符，满足了几种
 			int satisfy = 0;
+			// 窗口右边界
 			int R = -1;
-			for (int L = 0; L < N; L++) {
+			for (int L = 0; L < N; L++) { // L要尝试每一个窗口的最左位置
+				// [L..R]  R+1
 				while (R + 1 < N && !(collect == require && count[str[R + 1] - 'a'] == 0)) {
 					R++;
 					if (count[str[R] - 'a'] == 0) {
@@ -46,9 +52,11 @@ public class Problem_0395_LongestSubstringWithAtLeastKRepeatingCharacters {
 					}
 					count[str[R] - 'a']++;
 				}
+				// [L...R]
 				if (satisfy == require) {
 					max = Math.max(max, R - L + 1);
 				}
+				// L++
 				if (count[str[L] - 'a'] == 1) {
 					collect--;
 				}

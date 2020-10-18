@@ -5,13 +5,14 @@ import java.util.List;
 
 public class Code04_Painting {
 	// N * M的棋盘
+	// 所有格子必须染色
 	// 每种颜色的格子数必须相同的
 	// 相邻格子染的颜色必须不同
-	// 所有格子必须染色
 	// 返回至少多少种颜色可以完成任务
 
+	// 暴力解
 	public static int minColors(int N, int M) {
-		for (int i = 2; i < N * M; i++) {
+		for (int i = 2; i <= N * M; i++) {
 			int[][] matrix = new int[N][M];
 			// 下面这一句可知，需要的最少颜色数i，一定是N*M的某个因子
 			if ((N * M) % i == 0 && can(matrix, N, M, i)) {
@@ -59,8 +60,8 @@ public class Code04_Painting {
 
 	public static void main(String[] args) {
 		// 根据代码16行的提示，打印出答案，看看是答案是哪个因子
-		for (int N = 2; N < 10; N++) {
-			for (int M = 2; M < 10; M++) {
+		for (int N = 2; N < 11; N++) {
+			for (int M = 2; M < 11; M++) {
 				System.out.println("N   = " + N);
 				System.out.println("M   = " + M);
 				System.out.println("ans = " + minColors(N, M));

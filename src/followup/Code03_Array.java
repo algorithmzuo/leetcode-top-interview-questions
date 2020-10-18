@@ -27,6 +27,7 @@ public class Code03_Array {
 		return 0;
 	}
 
+	// str ->  "  [[[7]]]  "  返回什么
 	public static Integer value(String str, int[] arr) {
 		int value = Integer.valueOf(str.replace("[", "").replace("]", ""));
 		int levels = str.lastIndexOf("[") + 1;
@@ -40,9 +41,20 @@ public class Code03_Array {
 	}
 
 	public static void main(String[] args) {
-		String[] contents = { "arr[7]", "arr[0]=6", "arr[1]=3", "arr[2]=1", "arr[3]=2", "arr[4]=4", "arr[5]=0",
-				"arr[6]=5", "arr[arr[1]]=3", "arr[arr[arr[arr[5]]]]=arr[arr[arr[3]]]", "arr[arr[4]]=arr[arr[arr[0]]]",
-				"arr[arr[1]] = 7", "arr[0] = arr[arr[arr[1]]]" };
+		String[] contents = { 
+				"arr[7]", 
+				"arr[0]=6", 
+				"arr[1]=3", 
+				"arr[2]=1", 
+				"arr[3]=2", 
+				"arr[4]=4", 
+				"arr[5]=0",
+				"arr[6]=5", 
+				"arr[arr[1]]=3", 
+				"arr[arr[arr[arr[5]]]]=arr[arr[arr[3]]]",
+				"arr[arr[4]]=arr[arr[arr[0]]]",
+				"arr[arr[1]] = 7", 
+				"arr[0] = arr[arr[arr[1]]]" };
 		System.out.println(findError(contents));
 
 	}

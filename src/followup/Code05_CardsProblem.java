@@ -15,7 +15,6 @@ import java.util.LinkedList;
  * 第一张第三个属性为"C"、第二张第三个属性为"C"、第三张第三个属性为"C"，全一样
  * 每种属性都满足在三张扑克中全一样，或全不一样，所以这三张扑克达标
  * 返回在cards[]中任意挑选三张扑克，达标的方法数
- * 
  * */
 public class Code05_CardsProblem {
 
@@ -64,6 +63,8 @@ public class Code05_CardsProblem {
 				ways += n == 3 ? 1 : (n * (n - 1) * (n - 2) / 6);
 			}
 		}
+		// 依次选出 第一个状态  第二个状态  第三个状态 
+		//           15         6         21
 		LinkedList<Integer> path = new LinkedList<>();
 		for (int i = 0; i < 27; i++) {
 			if (counts[i] != 0) {
