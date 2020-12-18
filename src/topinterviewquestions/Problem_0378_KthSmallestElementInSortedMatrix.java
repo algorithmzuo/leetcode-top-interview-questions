@@ -27,12 +27,10 @@ public class Problem_0378_KthSmallestElementInSortedMatrix {
 
 	}
 
-	public static int kthSmallest(int[][] matrix, int k) {
+	public static int kthSmallest1(int[][] matrix, int k) {
 		int N = matrix.length;
 		int M = matrix[0].length;
 		PriorityQueue<Node> heap = new PriorityQueue<>(new NodeComparator());
-		// i,j   set[i][j] = true
-		// i,j   set[i][j] = false
 		boolean[][] set = new boolean[N][M];
 		heap.add(new Node(matrix[0][0], 0, 0));
 		set[0][0] = true;
@@ -55,6 +53,54 @@ public class Problem_0378_KthSmallestElementInSortedMatrix {
 			}
 		}
 		return ans.value;
+	}
+
+	public static int kthSmallest2(int[][] matrix, int k) {
+		int N = matrix.length;
+		int M = matrix[0].length;
+		int left = matrix[0][0];
+		int right = matrix[N - 1][M - 1];
+		int ans = 0;
+		while (left <= right) {
+			int mid = left + ((right - left) >> 1);
+			Info info = noMoreNum(matrix, mid);
+			if (info.num < k) {
+				left = mid + 1;
+			} else {
+				ans = info.near;
+				right = mid - 1;
+			}
+		}
+		return ans;
+	}
+
+	public static class Info {
+		public int near;
+		public int num;
+
+		public Info(int n1, int n2) {
+			near = n1;
+			num = n2;
+		}
+	}
+
+	public static Info noMoreNum(int[][] matrix, int value) {
+		int near = Integer.MIN_VALUE;
+		int num = 0;
+		int N = matrix.length;
+		int M = matrix[0].length;
+		int row = 0;
+		int col = M - 1;
+		while (row < N && col >= 0) {
+			if (matrix[row][col] <= value) {
+				near = Math.max(near, matrix[row][col]);
+				num += col + 1;
+				row++;
+			} else {
+				col--;
+			}
+		}
+		return new Info(near, num);
 	}
 
 }
