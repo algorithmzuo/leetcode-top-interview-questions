@@ -6,7 +6,6 @@ public class Problem_0152_MaximumProductSubarray {
 		int ans = nums[0];
 		int min = nums[0];
 		int max = nums[0];
-		// [0]   
 		for (int i = 1; i < nums.length; i++) {
 			int curmin = Math.min(nums[i], Math.min(min * nums[i], max * nums[i]));
 			int curmax = Math.max(nums[i], Math.max(min * nums[i], max * nums[i]));
